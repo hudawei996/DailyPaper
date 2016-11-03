@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+              android:background="@android:color/white"
+             tools:context="com.lauzy.freedom.dailypaper.fragment.DrawerFragment">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_selected_blue">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:padding="30dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@color/colorPrimaryDark"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_drawer_view_bg"></View>
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@drawable/drawer_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:drawableLeft="@mipmap/icon_recent_blue_64"
+            style="@style/DrawerItemStyle"
+            android:text="@string/txt_drawer_recent"
+            android:id="@+id/textView"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@drawable/drawer_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:drawableLeft="@mipmap/icon_collection_blue_64"
+            style="@style/DrawerItemStyle"
+            android:text="@string/txt_drawer_collection"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@drawable/drawer_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:drawableLeft="@mipmap/icon_mode_night_blue_64"
+            style="@style/DrawerItemStyle"
+            android:text="@string/txt_drawer_mode_night"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/color_drawer_view_bg"></View>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/color_drawer_view_bg"></View>
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@drawable/drawer_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:drawableLeft="@mipmap/icon_setting_blue_64"
+            style="@style/DrawerItemStyle"
+            android:text="@string/txt_drawer_setting"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@drawable/drawer_item_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:drawableLeft="@mipmap/icon_help_blue_64"
+            style="@style/DrawerItemStyle"
+            android:text="@string/txt_drawer_help"/>
+    </LinearLayout>
+
+
+</LinearLayout>

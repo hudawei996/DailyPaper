@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:icon="@mipmap/icon_collection_blue_64"
+            android:title="@string/txt_drawer_collection"/>
+        <item
+            android:icon="@mipmap/icon_recent_blue_64"
+            android:title="@string/txt_drawer_recent"/>
+        <item
+            android:icon="@mipmap/icon_mode_night_blue_64"
+            android:title="@string/txt_drawer_mode_night"/>
+
+    </group>
+
+    <item android:title="@string/txt_drawer_manage">
+        <menu>
+            <item
+                android:icon="@mipmap/icon_setting_blue_64"
+                android:title="@string/txt_drawer_setting"/>
+
+            <item
+                android:title="@string/txt_drawer_help"
+                android:icon="@mipmap/icon_help_blue_64"/>
+        </menu>
+    </item>
+
+</menu>

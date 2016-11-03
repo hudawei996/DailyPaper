@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lauzy.freedom.dailypaper.activity.ZHThemeItemActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_zh_theme_item"
+        android:background="@color/color_selected_blue"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <TextView
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:text="@string/txt_title_item_detail"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <WebView
+        android:id="@+id/webview_zh_theme_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+
+</LinearLayout>

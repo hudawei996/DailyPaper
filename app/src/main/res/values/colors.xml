@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_selected_blue">#17abe3</color>
+    <color name="color_unselected_gray">#707070</color>
+
+    <color name="color_drawer_item_gray">#EAEAEA</color>
+    <color name="color_drawer_view_bg">#DBDBDB</color>
+
+    <color name="color_image_dark_alpha">#30000000</color>
+
+</resources>
