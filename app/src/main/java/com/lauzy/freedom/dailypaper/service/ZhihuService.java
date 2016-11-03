@@ -3,6 +3,8 @@ package com.lauzy.freedom.dailypaper.service;
 import com.lauzy.freedom.dailypaper.model.ZHThemeItemDetail;
 import com.lauzy.freedom.dailypaper.model.ZHThemeList;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
+import com.lauzy.freedom.dailypaper.model.ZHhomePageBean;
+import com.lauzy.freedom.dailypaper.model.ZHhomePageBefore;
 import com.lauzy.freedom.dailypaper.utils.Contants;
 
 import retrofit2.http.GET;
@@ -27,4 +29,13 @@ public interface ZhihuService {
 
     @GET(Contants.ZHIHU_THEME_LIST_ITEM_DETAIL_URL + "{detailId}")
     Observable<ZHThemeItemDetail> getZHThemeItemDetail(@Path("detailId") int detailId);
+
+    @GET(Contants.ZHIHU_HOME_PAGE_LATEST)
+    Observable<ZHhomePageBean> getZHHomePageLatest();
+
+   /* @GET(Contants.ZHIHU_HOME_PAGE_BEFORE + "{beforeDate}")
+    Observable<ZHhomePageBefore> getZHHomePageBeforeList(@Path("beforeDate") String beforeDate);*/
+
+    @GET(Contants.ZHIHU_HOME_PAGE_BEFORE + "{beforeDate}")
+    Observable<ZHhomePageBean> getZHHomePageBeforeList(@Path("beforeDate") String beforeDate);
 }
