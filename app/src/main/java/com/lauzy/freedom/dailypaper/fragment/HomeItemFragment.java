@@ -11,22 +11,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.activity.ZHThemeItemActivity;
 import com.lauzy.freedom.dailypaper.adapter.HomeItemAdapter;
+import com.lauzy.freedom.dailypaper.app.MyApp;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
 import com.lauzy.freedom.dailypaper.net.RetrofitUtils;
 import com.lauzy.freedom.dailypaper.utils.Contants;
 import com.lauzy.freedom.dailypaper.utils.RvItemClickListener;
 import com.lauzy.freedom.dailypaper.utils.RvItemTouchListener;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -84,6 +82,10 @@ public class HomeItemFragment extends Fragment {
                     ZHThemeListItem zhThemeListItem = (ZHThemeListItem) msg.obj;
                     handleData(zhThemeListItem);
                     break;
+                case Contants.ZH_GETDATA_FAILURE:
+                    mRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getContext(), R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };
@@ -108,14 +110,17 @@ public class HomeItemFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RvItemTouchListener(getContext(), mRecyclerView, new RvItemClickListener() {
             @Override
             public void rvItemClick(int positon) {
-                if (positon >= 1) {
+                if (positon >= 1 && positon <= stories.size()) {
                     int itemID = stories.get(positon - 1).getId();
+                    stories.get(positon - 1).setRead(true);//设置为已读
+                    mAdapter.notifyDataSetChanged();
                     //需要设置ZHThemeItemActivity 为singletask启动模式，否则下拉刷新，栈内可能会出现多个activity
                     Intent intent = new Intent(getActivity(), ZHThemeItemActivity.class);
                     intent.putExtra(ZHThemeItemActivity.ZHTHEME_ITEM_ID, itemID);
                     startActivity(intent);
                 }
             }
+
             @Override
             public void rvItemLongClick(int positon) {
             }
@@ -136,6 +141,9 @@ public class HomeItemFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (mAdapter.getItemCount() != 0) {
+                    mAdapter.clearAllData();
+                }
                 RetrofitUtils.getZHThemeListItemData(mZHThemeListItemHandler, Contants.ZHTHEME_LIST_ITEM_SUCCESS, mParam2);
             }
         });

@@ -1,5 +1,6 @@
 package com.lauzy.freedom.dailypaper.service;
 
+import com.lauzy.freedom.dailypaper.model.ZHNewsExtraBean;
 import com.lauzy.freedom.dailypaper.model.ZHThemeItemDetail;
 import com.lauzy.freedom.dailypaper.model.ZHThemeList;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
@@ -29,6 +30,9 @@ public interface ZhihuService {
 
     @GET(Contants.ZHIHU_THEME_LIST_ITEM_DETAIL_URL + "{detailId}")
     Observable<ZHThemeItemDetail> getZHThemeItemDetail(@Path("detailId") int detailId);
+
+    @GET(Contants.ZHIHU_NEWS_EXTRA_URL + "{newsId}")
+    Observable<ZHNewsExtraBean> getZHNewsExtraData(@Path("newsId") int newsId);
 
     @GET(Contants.ZHIHU_HOME_PAGE_LATEST)
     Observable<ZHhomePageBean> getZHHomePageLatest();

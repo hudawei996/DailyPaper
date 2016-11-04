@@ -108,6 +108,17 @@ public class ZHThemeListItem {
     }
 
     public static class StoriesBean {
+
+        private boolean isRead;
+
+        public boolean isRead() {
+            return isRead;
+        }
+
+        public void setRead(boolean read) {
+            isRead = read;
+        }
+
         private int type;
         private int id;
         private String title;

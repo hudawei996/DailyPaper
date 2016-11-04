@@ -1,6 +1,7 @@
 package com.lauzy.freedom.dailypaper.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,7 +84,7 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((RvHeadHolder) holder).mEditorLayout.removeAllViews();//移除所有的子view，防止滑动时重复加载
 
             TextView textView = new TextView(mContext);
-            textView.setText("编者");
+            textView.setText(R.string.txt_author);
             ((RvHeadHolder) holder).mEditorLayout.addView(textView);
 
             for (ZHThemeListItem.EditorsBean editorsBean : mEditorsBeen) {
@@ -115,12 +116,22 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((RvViewHolder) holder).mContenImageView.setVisibility(View.GONE);
                 ((RvViewHolder) holder).mContentTextView.setText(storiesBean.getTitle());
             }
+            if (storiesBean.isRead()){
+                ((RvViewHolder) holder).mContentTextView.setTextColor(Color.GRAY);
+            }else {
+                ((RvViewHolder) holder).mContentTextView.setTextColor(Color.BLACK);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
         return mStoriesBeen == null ? 0 : mStoriesBeen.size() + 1;
+    }
+
+    public void clearAllData() {
+        mStoriesBeen.clear();
+        notifyDataSetChanged();
     }
 
     class RvHeadHolder extends RecyclerView.ViewHolder {

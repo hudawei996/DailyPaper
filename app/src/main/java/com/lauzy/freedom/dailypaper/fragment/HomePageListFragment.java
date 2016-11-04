@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.adapter.HomeListAdapter;
+import com.lauzy.freedom.dailypaper.app.MyApp;
 import com.lauzy.freedom.dailypaper.model.ZHhomePageBean;
 import com.lauzy.freedom.dailypaper.net.RetrofitUtils;
 import com.lauzy.freedom.dailypaper.service.ZhihuService;
@@ -37,6 +38,7 @@ public class HomePageListFragment extends Fragment {
     private String mCurrentDate;
     private ListView mListView;
     private List<ZHhomePageBean.StoriesBean> mStoriesBeen = new ArrayList<>();
+//    private ZHhomePageBean mZHhomePageBean;
     private HomeListAdapter mAdapter;
     private boolean isLastItem;
     private SwipeRefreshLayout mRefreshLayout;
@@ -85,7 +87,7 @@ public class HomePageListFragment extends Fragment {
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (isLastItem && scrollState == SCROLL_STATE_IDLE){
+                if (isLastItem && scrollState == SCROLL_STATE_IDLE) {
                     loadBeforeData(mCurrentDate);
                 }
             }
@@ -118,17 +120,21 @@ public class HomePageListFragment extends Fragment {
                     @Override
                     public void onCompleted() {
 
-
                     }
+
                     @Override
                     public void onError(Throwable e) {
-
+                        Toast.makeText(getContext(), R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(ZHhomePageBean zHhomePageBean) {
-                        mAdapter.addNewsData(zHhomePageBean.getStories());
+                        List<ZHhomePageBean.StoriesBean> stories = zHhomePageBean.getStories();
                         mCurrentDate = zHhomePageBean.getDate();
+                        for (ZHhomePageBean.StoriesBean story : stories) {
+                            story.setDate(zHhomePageBean.getDate());
+                        }
+                        mAdapter.addBeforeNewsData(stories);
                     }
                 });
     }
@@ -147,16 +153,28 @@ public class HomePageListFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("TAG", "onError: ");
+                        mRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getContext(), R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onNext(ZHhomePageBean zHhomePageBean) {
+                    public void onNext(final ZHhomePageBean zHhomePageBean) {
 
                         mRefreshLayout.setRefreshing(false);
-
                         List<ZHhomePageBean.StoriesBean> stories = zHhomePageBean.getStories();
                         mCurrentDate = zHhomePageBean.getDate();
+                        for (ZHhomePageBean.StoriesBean story : stories) {
+                            story.setDate(zHhomePageBean.getDate());
+                        }
+                       /* mListView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mAdapter = new HomeListAdapter(getContext(),zHhomePageBean);
+                                mListView.setAdapter(mAdapter);
+                            }
+                        });*/
                         mAdapter.addNewsData(stories);
+//                        mAdapter.addLatestBean(zHhomePageBean);
                     }
                 });
     }

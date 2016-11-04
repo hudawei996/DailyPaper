@@ -6,17 +6,27 @@
     android:id="@+id/drawerlayout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lauzy.freedom.dailypaper.MainActivity">
+    tools:context="com.lauzy.freedom.dailypaper.activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/color_selected_blue">
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+
         </android.support.v7.widget.Toolbar>
 
         <FrameLayout

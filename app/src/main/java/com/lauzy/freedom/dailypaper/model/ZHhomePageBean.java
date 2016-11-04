@@ -59,6 +59,27 @@ public class ZHhomePageBean {
     }
 
     public static class StoriesBean {
+
+        private String date;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        private boolean isRead;
+
+        public boolean isRead() {
+            return isRead;
+        }
+
+        public void setRead(boolean read) {
+            isRead = read;
+        }
+
         private int type;
         private int id;
         private String ga_prefix;

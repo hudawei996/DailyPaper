@@ -3,11 +3,14 @@ package com.lauzy.freedom.dailypaper.net;
 import android.os.Handler;
 import android.os.Message;
 
+import com.lauzy.freedom.dailypaper.model.QiuBaiVideoBean;
+import com.lauzy.freedom.dailypaper.model.ZHNewsExtraBean;
 import com.lauzy.freedom.dailypaper.model.ZHThemeItemDetail;
 import com.lauzy.freedom.dailypaper.model.ZHThemeList;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
 import com.lauzy.freedom.dailypaper.model.ZHhomePageBean;
 import com.lauzy.freedom.dailypaper.model.ZHhomePageBefore;
+import com.lauzy.freedom.dailypaper.service.QiubaiService;
 import com.lauzy.freedom.dailypaper.service.ZhihuService;
 import com.lauzy.freedom.dailypaper.utils.Contants;
 
@@ -27,6 +30,7 @@ import rx.schedulers.Schedulers;
 public class RetrofitUtils {
 
     private Retrofit mZHRetrofit;
+    private Retrofit mQBRetrofit;
 
    /* public static RetrofitUtils instance;
 
@@ -59,9 +63,19 @@ public class RetrofitUtils {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
+        mQBRetrofit = new Retrofit.Builder()
+                .baseUrl(Contants.QIUBAI_VIDEO_BASEURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
     }
     public Retrofit getZHRetrofit(){
         return mZHRetrofit;
+    }
+
+    public Retrofit getQBRetrofit(){
+        return mQBRetrofit;
     }
 
     /**
@@ -82,7 +96,9 @@ public class RetrofitUtils {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Message message = handler.obtainMessage();
+                        message.what = what;
+                        handler.sendMessage(message);
                     }
 
                     @Override
@@ -114,7 +130,9 @@ public class RetrofitUtils {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Message message = handler.obtainMessage();
+                        message.what = Contants.ZH_GETDATA_FAILURE;
+                        handler.sendMessage(message);
                     }
 
                     @Override
@@ -146,7 +164,9 @@ public class RetrofitUtils {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Message message = handler.obtainMessage();
+                        message.what = what;
+                        handler.sendMessage(message);
                     }
 
                     @Override
@@ -159,11 +179,38 @@ public class RetrofitUtils {
                 });
     }
 
+    public static void getZHNewsExtraData(final Handler handler, final int what, int newsId){
+        ZhihuService zhihuService = getInstance().getZHRetrofit().create(ZhihuService.class);
+        Observable<ZHNewsExtraBean> newsExtraData = zhihuService.getZHNewsExtraData(newsId);
+        newsExtraData.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ZHNewsExtraBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ZHNewsExtraBean zhNewsExtraBean) {
+                        Message message = handler.obtainMessage();
+                        message.obj = zhNewsExtraBean;
+                        message.what = what;
+                        handler.sendMessage(message);
+                    }
+                });
+    }
+
     /**
      * 获取知乎首页内容
      * @param handler
      * @param what
      */
+    @Deprecated
     public static void getZHhomePageData(final Handler handler, final int what){
         ZhihuService zhihuService = getInstance().getZHRetrofit().create(ZhihuService.class);
         Observable<ZHhomePageBean> homeObservable = zhihuService.getZHHomePageLatest();
@@ -177,7 +224,9 @@ public class RetrofitUtils {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Message message = handler.obtainMessage();
+                        message.what = what;
+                        handler.sendMessage(message);
                     }
 
                     @Override
@@ -190,44 +239,13 @@ public class RetrofitUtils {
                 });
     }
 
-   /* *//**
-     * 获取知乎首页的过往消息
-     * @param handler
-     * @param what
-     * @param beforeDate
-     *//*
-    public static void getZHhomePageBefore(final Handler handler, final int what, String beforeDate){
-        ZhihuService zhihuService = getInstance().getZHRetrofit().create(ZhihuService.class);
-        Observable<ZHhomePageBefore> beforeObservable = zhihuService.getZHHomePageBeforeList(beforeDate);
-        beforeObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ZHhomePageBefore>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(ZHhomePageBefore zHhomePageBefore) {
-                        Message message = handler.obtainMessage();
-                        message.obj = zHhomePageBefore;
-                        message.what = what;
-                        handler.sendMessage(message);
-                    }
-                });
-    }
-*/
     /**
      * 获取知乎首页的过往消息
      * @param handler
      * @param what
      * @param beforeDate
      */
+    @Deprecated
     public static void getZHhomePageBefore(final Handler handler, final int what, String beforeDate){
         ZhihuService zhihuService = getInstance().getZHRetrofit().create(ZhihuService.class);
         Observable<ZHhomePageBean> beforeObservable = zhihuService.getZHHomePageBeforeList(beforeDate);
@@ -241,7 +259,9 @@ public class RetrofitUtils {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Message message = handler.obtainMessage();
+                        message.what = what;
+                        handler.sendMessage(message);
                     }
 
                     @Override
@@ -252,6 +272,34 @@ public class RetrofitUtils {
                         handler.sendMessage(message);
                     }
                 });
+    }
+
+    public static void getQBData(final Handler handler, final int what, int page){
+
+        QiubaiService qiubaiService = getInstance().getQBRetrofit().create(QiubaiService.class);
+        Observable<QiuBaiVideoBean> videoBeanObservable = qiubaiService.getQiubaiVideoData(page);
+        videoBeanObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<QiuBaiVideoBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(QiuBaiVideoBean qiuBaiVideoBean) {
+                        Message message = handler.obtainMessage();
+                        message.obj = qiuBaiVideoBean;
+                        message.what = what;
+                        handler.sendMessage(message);
+                    }
+                });
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.lauzy.freedom.dailypaper;
+package com.lauzy.freedom.dailypaper.activity;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -15,9 +15,13 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.fragment.CommunityFragment;
 import com.lauzy.freedom.dailypaper.fragment.IdeaFragment;
 import com.lauzy.freedom.dailypaper.fragment.FindFragment;
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private CommonTabLayout mCommonTabLayout;
     private DrawerLayout mDrawerLayout;
+    private ArrayList<CustomTabEntity> mTabs;
+    private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +136,19 @@ public class MainActivity extends AppCompatActivity {
     private void initTabs() {
 
         mCommonTabLayout = (CommonTabLayout) findViewById(R.id.tablayout_main);
+        mTextView = (TextView) findViewById(R.id.txt_title);
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
         mToolbar.setNavigationIcon(R.mipmap.icon_navigation);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         setSupportActionBar(mToolbar);
 
-        ArrayList<CustomTabEntity> tabs = new ArrayList<>();
+        mTabs = new ArrayList<>();
 
         CustomTabEntity tabHome = new MyCustomTabEntity(getResources().getString(R.string.tab_main_home),
                 R.mipmap.icon_tab_main_home_selected_64, R.mipmap.icon_tab_main_home_unselected_64);
@@ -148,12 +162,25 @@ public class MainActivity extends AppCompatActivity {
         CustomTabEntity tabCreate = new MyCustomTabEntity(getResources().getString(R.string.tab_main_idea),
                 R.mipmap.icon_tab_main_create_selected_64, R.mipmap.icon_tab_main_create_unselected_64);
 
-        tabs.add(tabHome);
-        tabs.add(tabFind);
-        tabs.add(tabSocial);
-        tabs.add(tabCreate);
+        mTabs.add(tabHome);
+        mTabs.add(tabFind);
+        mTabs.add(tabSocial);
+        mTabs.add(tabCreate);
 
-        mCommonTabLayout.setTabData(tabs, this, R.id.fragment_main, mFragments);
+        mTextView.setText(R.string.tab_main_home);
+
+        mCommonTabLayout.setTabData(mTabs, this, R.id.fragment_main, mFragments);
+        mCommonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                mTextView.setText(mTabs.get(position).getTabTitle());
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
 
     }
 

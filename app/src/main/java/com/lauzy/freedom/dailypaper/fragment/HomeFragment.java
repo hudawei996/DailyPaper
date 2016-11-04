@@ -75,21 +75,23 @@ public class HomeFragment extends Fragment {
             switch (msg.what) {
                 case Contants.ZHTHEME_LIST_SUCCESS:
                     ZHThemeList themeList = (ZHThemeList) msg.obj;
-                    List<ZHThemeList.OthersBean> others = themeList.getOthers();
+                    if (themeList!=null) {
+                        List<ZHThemeList.OthersBean> others = themeList.getOthers();
 
-                    //默认添加首页
-                    mTitleList.add(getResources().getString(R.string.txt_title_home));
-                    mFragments.add(HomePageFragment.newInstance(getResources().getString(R.string.txt_title_home),""));
+                        //默认添加首页
+                        mTitleList.add(getResources().getString(R.string.txt_title_home));
+                        mFragments.add(HomePageListFragment.newInstance(getResources().getString(R.string.txt_title_home), ""));
 
-                    for (ZHThemeList.OthersBean other : others) {
-                        String name = other.getName();
-                        mTitleList.add(name);
-                        mFragments.add(HomeItemFragment.newInstance(other.getName(), other.getId()));
+                        for (ZHThemeList.OthersBean other : others) {
+                            String name = other.getName();
+                            mTitleList.add(name);
+                            mFragments.add(HomeItemFragment.newInstance(other.getName(), other.getId()));
+                        }
+
+                        mViewPagerHome.setAdapter(new HomeAdapter(getChildFragmentManager(), mFragments, mTitleList));
+                        mViewPagerHome.setOffscreenPageLimit(3);
+                        mTabLayoutHome.setViewPager(mViewPagerHome);
                     }
-
-                    mViewPagerHome.setAdapter(new HomeAdapter(getChildFragmentManager(), mFragments, mTitleList));
-                    mViewPagerHome.setOffscreenPageLimit(3);
-                    mTabLayoutHome.setViewPager(mViewPagerHome);
                     break;
             }
         }

@@ -23,10 +23,15 @@ import com.squareup.picasso.Picasso;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
-import com.zhy.adapter.recyclerview.wrapper.LoadMoreWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 采用commonadapter,处理不便，废弃此方法
+ */
+
+@Deprecated
 public class HomePageFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -34,15 +39,15 @@ public class HomePageFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
     private RecyclerView mRecyclerView;
     private CommonAdapter<ZHhomePageBean.StoriesBean> mHomePageAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private HeaderAndFooterWrapper mHeaderAndFooterWrapper;
-    private List<ZHhomePageBean.StoriesBean> mStories;
-    private List<ZHhomePageBean.StoriesBean> mBeforeStories;
+    private List<ZHhomePageBean.StoriesBean> mAllStories = new ArrayList<>();
     private String mDate;
-    private String mBeforeDate;
-    private LoadMoreWrapper mLoadMoreWrapper;
+    private LinearLayoutManager mLayoutManager;
+    private int mLastVisibleItem;
 
 
     public HomePageFragment() {
@@ -77,15 +82,17 @@ public class HomePageFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+//        RetrofitUtils.getZHhomePageBefore(mHomePageHandler, Contants.ZHHOME_PAGE_SUCCESS,"20161104");
         RetrofitUtils.getZHhomePageData(mHomePageHandler, Contants.ZHHOME_PAGE_SUCCESS);
     }
 
     private void initView(View view) {
+
         mRecyclerView = ((RecyclerView) view.findViewById(R.id.recyclerview_zh_homepage));
         mRefreshLayout = ((SwipeRefreshLayout) view.findViewById(R.id.srl_home_page));
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         initRefresh();
     }
 
@@ -100,26 +107,31 @@ public class HomePageFragment extends Fragment {
     }
 
     private Handler mHomePageHandler = new Handler() {
-
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case Contants.ZHHOME_PAGE_SUCCESS:
-
                     ZHhomePageBean zHhomePageBean = (ZHhomePageBean) msg.obj;
-                    mStories = zHhomePageBean.getStories();
-                    mDate = zHhomePageBean.getDate();
-                    handleHomePageList(mStories);//首页数据
+                    List<ZHhomePageBean.StoriesBean> stories = zHhomePageBean.getStories();
+                    mAllStories.addAll(stories);
+                    String date = zHhomePageBean.getDate();
+                    mDate = date;
                     mRefreshLayout.setRefreshing(false);
+                    handleHomePageList(mAllStories, mDate);//首页数据
                     break;
-
+               /* case Contants.ZHHOME_PAGE_BEFORE_SUCCESS:
+                    ZHhomePageBean zHhomePageBeanBefore = (ZHhomePageBean) msg.obj;
+                    String beforeDate = zHhomePageBeanBefore.getDate();
+                    mDate = beforeDate;
+                    List<ZHhomePageBean.StoriesBean> beforeStroies = zHhomePageBeanBefore.getStories();
+                    mAllStories.addAll(beforeStroies);
+                    break;*/
             }
         }
     };
 
-    private void handleHomePageList(List<ZHhomePageBean.StoriesBean> stories) {
+    private void handleHomePageList(List<ZHhomePageBean.StoriesBean> stories, final String date) {
 
         mHomePageAdapter = new CommonAdapter<ZHhomePageBean.StoriesBean>(getContext(),
                 R.layout.layout_zh_themelist_item, stories) {
@@ -138,6 +150,28 @@ public class HomePageFragment extends Fragment {
         initHeader();
 
         mRecyclerView.setAdapter(mHeaderAndFooterWrapper);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && mLastVisibleItem + 1 == mHeaderAndFooterWrapper.getItemCount()) {
+//                    RetrofitUtils.getZHhomePageBefore(mHomePageHandler, Contants.ZHHOME_PAGE_BEFORE_SUCCESS, date);
+                    getBeforeData(date);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mLastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
+    }
+
+    private void getBeforeData(String date) {
 
     }
 
