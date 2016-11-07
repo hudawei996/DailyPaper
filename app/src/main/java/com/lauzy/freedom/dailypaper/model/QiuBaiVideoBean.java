@@ -3,6 +3,7 @@ package com.lauzy.freedom.dailypaper.model;
 import java.util.List;
 
 /**
+ * 糗事百科实体类
  * Created by Lauzy on 2016/11/4.
  */
 

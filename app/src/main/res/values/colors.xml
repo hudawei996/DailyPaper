@@ -7,9 +7,13 @@
     <color name="color_selected_blue">#17abe3</color>
     <color name="color_unselected_gray">#707070</color>
 
+    <color name="color_status_bar">#009ACD</color>
+
     <color name="color_drawer_item_gray">#EAEAEA</color>
     <color name="color_drawer_view_bg">#DBDBDB</color>
 
     <color name="color_image_dark_alpha">#30000000</color>
+    <color name="color_nickname_transparent">#15000000</color>
+    <color name="color_gender_transparent">#10000000</color>
 
 </resources>

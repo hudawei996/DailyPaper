@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +100,5 @@ public class HomeFragment extends Fragment {
         mTabLayoutHome = ((SlidingTabLayout) view.findViewById(R.id.tablayout_home));
         mViewPagerHome = ((ViewPager) view.findViewById(R.id.viewpager_home));
         RetrofitUtils.getZHThemeListData(mThemeListHandler, Contants.ZHTHEME_LIST_SUCCESS);
-        Log.e("TAG", "initView: ");
     }
 }

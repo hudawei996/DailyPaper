@@ -1,5 +1,8 @@
 package com.lauzy.freedom.dailypaper.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Lauzy on 2016/11/4.
  */
@@ -13,6 +16,13 @@ public class DateUtils {
             e.printStackTrace();
         }
         return dateFormat;
+    }
+
+
+    public static String getCurrentDate(){
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
     }
 
 }

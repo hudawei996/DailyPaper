@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.adapter.HomeListAdapter;
-import com.lauzy.freedom.dailypaper.app.MyApp;
 import com.lauzy.freedom.dailypaper.model.ZHhomePageBean;
 import com.lauzy.freedom.dailypaper.net.RetrofitUtils;
 import com.lauzy.freedom.dailypaper.service.ZhihuService;

@@ -5,7 +5,6 @@ import com.lauzy.freedom.dailypaper.model.ZHThemeItemDetail;
 import com.lauzy.freedom.dailypaper.model.ZHThemeList;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
 import com.lauzy.freedom.dailypaper.model.ZHhomePageBean;
-import com.lauzy.freedom.dailypaper.model.ZHhomePageBefore;
 import com.lauzy.freedom.dailypaper.utils.Contants;
 
 import retrofit2.http.GET;

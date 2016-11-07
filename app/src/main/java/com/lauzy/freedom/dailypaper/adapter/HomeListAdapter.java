@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
+ * 知乎首页
  * Created by Lauzy on 2016/11/3.
  */
 
@@ -78,7 +79,7 @@ public class HomeListAdapter extends BaseAdapter {
             ZHhomePageBean.StoriesBean storiesBean = mStoriesBeen.get(position);
             Picasso.with(mContext)
                     .load(storiesBean.getImages().get(0))
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.default_img)
                     .into(holder.mImageView);
 
             if (storiesBean.isRead()) {

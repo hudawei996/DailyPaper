@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 /**
+ * 收藏新闻实体类
  * Created by Lauzy on 2016/11/4.
  */
 
@@ -12,16 +13,38 @@ import com.activeandroid.annotation.Table;
 public class CollectionNews extends Model{
 
     @Column(name = "urlId")
-    private String urlId;
+    private int urlId;
 
     @Column(name = "date")
     private String date;
 
-    public String getUrlId() {
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "imgUrl")
+    private String imgUrl;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public int getUrlId() {
         return urlId;
     }
 
-    public void setUrlId(String urlId) {
+    public void setUrlId(int urlId) {
         this.urlId = urlId;
     }
 

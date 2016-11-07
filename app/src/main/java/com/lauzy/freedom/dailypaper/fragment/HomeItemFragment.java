@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.activity.ZHThemeItemActivity;
 import com.lauzy.freedom.dailypaper.adapter.HomeItemAdapter;
-import com.lauzy.freedom.dailypaper.app.MyApp;
 import com.lauzy.freedom.dailypaper.model.ZHThemeListItem;
 import com.lauzy.freedom.dailypaper.net.RetrofitUtils;
 import com.lauzy.freedom.dailypaper.utils.Contants;

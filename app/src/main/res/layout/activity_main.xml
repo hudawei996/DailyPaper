@@ -67,6 +67,7 @@
 -->
 
     <fragment
+        android:id="@+id/drawer_fragment"
         android:name="com.lauzy.freedom.dailypaper.fragment.DrawerFragment"
         android:layout_gravity="left"
         android:layout_width="match_parent"

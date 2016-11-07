@@ -2,7 +2,7 @@ package com.lauzy.freedom.dailypaper.model;
 
 import java.util.List;
 
-/**
+/**知乎首页实体类
  * Created by Lauzy on 2016/11/3.
  */
 

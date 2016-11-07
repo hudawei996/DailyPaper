@@ -3,7 +3,6 @@ package com.lauzy.freedom.dailypaper.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +96,7 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 Picasso.with(mContext)
                         .load(avatarUrl)
-                        .placeholder(R.mipmap.ic_launcher)
+                        .placeholder(R.mipmap.default_img)
                         .into(imageView);
 
                 ((RvHeadHolder) holder).mEditorLayout.addView(imageView);

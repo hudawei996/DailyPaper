@@ -2,13 +2,11 @@ package com.lauzy.freedom.dailypaper.activity;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -23,10 +21,12 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.fragment.CommunityFragment;
-import com.lauzy.freedom.dailypaper.fragment.IdeaFragment;
 import com.lauzy.freedom.dailypaper.fragment.FindFragment;
 import com.lauzy.freedom.dailypaper.fragment.HomeFragment;
+import com.lauzy.freedom.dailypaper.fragment.IdeaFragment;
 import com.lauzy.freedom.dailypaper.view.MyCustomTabEntity;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.Tencent;
 
 import java.util.ArrayList;
 
@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mDrawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-        setSupportActionBar(mToolbar);
+//        setSupportActionBar(mToolbar);
 
         mTabs = new ArrayList<>();
 
@@ -184,7 +184,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   /* *//**
+    /**
+     * QQapi
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_LOGIN ||
+                requestCode == Constants.REQUEST_APPBAR) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, null);
+        }
+    }
+
+    /* *//**
      * 复写activity的ontouchevent方法获取触屏事件
      * 将event传递给GestureDetector
      * @param event
