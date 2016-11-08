@@ -1,17 +1,24 @@
 package com.lauzy.freedom.dailypaper.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.lauzy.freedom.dailypaper.R;
@@ -24,8 +31,13 @@ import com.lauzy.freedom.dailypaper.utils.Contants;
 import com.lauzy.freedom.dailypaper.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.util.List;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class ZHThemeItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String ZHTHEME_ITEM_ID = "item_id";
@@ -81,17 +93,23 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
             switch (msg.what) {
                 case Contants.ZHTHEME_LIST_ITEM_DETAIL_SUCCESS:
                     ZHThemeItemDetail zhThemeItemDetail = (ZHThemeItemDetail) msg.obj;
-                    String imageUrl = zhThemeItemDetail.getImage();
+
+                    String imageUrl = null;
+                    String body = null;
+                    String css = null;
+                    if (zhThemeItemDetail != null) {
+                        imageUrl = zhThemeItemDetail.getImage();
+                        body = zhThemeItemDetail.getBody();
+                        css = zhThemeItemDetail.getCss().get(0);
+                        mTitle = zhThemeItemDetail.getTitle();
+                        mImageUrl = zhThemeItemDetail.getImages() == null ? "error" : zhThemeItemDetail.getImages().get(0);
+                    }
                     if (imageUrl != null) {
                         Picasso.with(MyApp.mContext)
                                 .load(imageUrl)
                                 .placeholder(R.mipmap.ic_launcher)
                                 .into(mImageView);
                     }
-                    String body = zhThemeItemDetail.getBody();
-                    String css = zhThemeItemDetail.getCss().get(0);
-                    mTitle = zhThemeItemDetail.getTitle();
-                    mImageUrl = zhThemeItemDetail.getImages() == null ? "error" : zhThemeItemDetail.getImages().get(0);
                     /*StringBuilder sb = new StringBuilder();
                     sb.append("<HTML><HEAD><LINK href=\"style.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>");
                     sb.append(body.toString());
@@ -104,7 +122,11 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
                         sb.append(body.toString());
                         sb.append("</body></HTML>");
                         mWebView.loadDataWithBaseURL(null, sb.toString(), "text/html", "UTF-8", null);
-                        sb.toString();
+
+                        handleImage(sb.toString());
+
+                    } else {
+                        Toast.makeText(ZHThemeItemActivity.this, R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
                     }
                     break;
 
@@ -120,6 +142,15 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
             }
         }
     };
+
+    @SuppressLint("JavascriptInterface")
+    private void handleImage(String s) {
+        Document document = Jsoup.parse(s);
+        Elements img = document.select("img");
+//        Log.e("TAG", "handleImage: " + img.toString());//<img class="avatar" src="http://pic1.zhimg.com/36b158fd8_is.jpg">
+        mWebView.addJavascriptInterface(new JavascriptInterface(this), "imagelistner");
+        mWebView.setWebViewClient(new MyWebViewClient());
+    }
 
     private void initData(int itemID) {
         RetrofitUtils.getZHThemeItemDetail(mZHThemeItemDetailHandler,
@@ -172,4 +203,69 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
+
+
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            view.getSettings().setJavaScriptEnabled(true);
+            super.onPageFinished(view, url);
+            // html加载完成之后，添加监听图片的点击js函数
+            addImageClickListner();
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            view.getSettings().setJavaScriptEnabled(true);
+
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+    }
+
+    public void addImageClickListner() {
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        mWebView.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.imagelistner.openImage(this.src);  " +
+                "    }  " +
+                "}" +
+                "})()");
+    }
+
+
+    // js通信接口
+    public class JavascriptInterface {
+
+        private Context context;
+
+        public JavascriptInterface(Context context) {
+            this.context = context;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void openImage(String img) {
+            Log.e("TAG", "openImage000: " + img);
+            Intent intent = new Intent();
+            intent.putExtra("image", img);
+            intent.setClass(context, ImageDetailActivity.class);
+            context.startActivity(intent);
+            Log.e("TAG", "openImage111: " + img);
+        }
+    }
+
 }

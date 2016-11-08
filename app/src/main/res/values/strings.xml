@@ -36,8 +36,18 @@
     <string name="txt_login">登录</string>
     <string name="txt_exit">退出</string>
     <string name="txt_delete">删除</string>
+    <string name="txt_save">保存</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--下载图片-->
+    <string name="txt_need_permission">当前应用缺少必要权限\n请点击“设置”-“权限”-打开所需权限。\n</string>
+    <string name="txt_deny_permission">退出</string>
+    <string name="txt_allow_permission">设置</string>
+    <string name="txt_never_ask_again">不再提示，您将无法使用此功能</string>
+    <string name="txt_deny_permission_clew">拒绝了权限，您将无法使用此功能</string>
+    <string name="txt_save_success">保存成功</string>
+    <string name="txt_save_failure">保存失败</string>
 
 
 </resources>

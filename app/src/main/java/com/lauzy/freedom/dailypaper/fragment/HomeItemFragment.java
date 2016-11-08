@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.activity.ZHThemeItemActivity;
@@ -83,7 +82,7 @@ public class HomeItemFragment extends Fragment {
                     break;
                 case Contants.ZH_GETDATA_FAILURE:
                     mRefreshLayout.setRefreshing(false);
-                    Toast.makeText(getContext(), R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), R.string.txt_getdata_failue, Toast.LENGTH_SHORT).show();
                     break;
             }
         }
