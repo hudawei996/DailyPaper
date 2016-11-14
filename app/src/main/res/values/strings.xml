@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DailyPaper</string>
+    <string name="app_name">简易日报</string>
     <string name="activity_no_label"></string>
 
 
@@ -48,6 +48,9 @@
     <string name="txt_deny_permission_clew">拒绝了权限，您将无法使用此功能</string>
     <string name="txt_save_success">保存成功</string>
     <string name="txt_save_failure">保存失败</string>
+
+
+    <string name="btn_click">Can you click me?</string>
 
 
 </resources>

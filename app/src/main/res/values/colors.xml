@@ -17,4 +17,7 @@
     <color name="color_nickname_transparent">#15000000</color>
     <color name="color_gender_transparent">#10000000</color>
 
+    <color name="color_black">#000000</color>
+    <color name="color_white">#FFFFFF</color>
+
 </resources>

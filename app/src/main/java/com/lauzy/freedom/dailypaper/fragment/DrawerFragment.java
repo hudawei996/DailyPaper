@@ -13,9 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lauzy.freedom.dailypaper.R;
 import com.lauzy.freedom.dailypaper.activity.NewsCollectionActivity;
@@ -30,7 +33,11 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DrawerFragment extends Fragment implements View.OnClickListener {
+import solid.ren.skinlibrary.base.SkinBaseFragment;
+import solid.ren.skinlibrary.listener.ILoaderListener;
+import solid.ren.skinlibrary.loader.SkinManager;
+
+public class DrawerFragment extends SkinBaseFragment implements View.OnClickListener {
 
 
     private Tencent mTencent;
@@ -41,6 +48,7 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
     private BaseListener mBaseListener;
     private boolean isLogin;
     private Button mButton;
+    private Switch mSwitch;
 
     public DrawerFragment() {
     }
@@ -89,6 +97,8 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
         mTextGender = (TextView) view.findViewById(R.id.txt_gender);
         mImageViewAvatar = (ImageView) view.findViewById(R.id.img_avatar);
 
+        mSwitch = ((Switch) view.findViewById(R.id.switch_theme));
+
         mBaseListener = new BaseListener() {
             @Override
             protected void doComplete(JSONObject response) {
@@ -98,7 +108,16 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        //                            super.doComplete(response);
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    changeTheNightTheme();
+                }else {
+                    changeDefaultTheme();
+                }
+            }
+        });
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +154,35 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+    }
+
+    private void changeDefaultTheme() {
+        SkinManager.getInstance().restoreDefaultTheme();
+    }
+
+    private void changeTheNightTheme() {
+        SkinManager.getInstance().loadSkin("night.skin",
+                new ILoaderListener() {
+                    @Override
+                    public void onStart() {
+//                        Toast.makeText(getContext(), "start", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+//                        Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailed(String errMsg) {
+                        Toast.makeText(getContext(), "fail", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+
+                    }
+                });
     }
 
     private void initLoginData(JSONObject jsonObject) {

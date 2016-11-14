@@ -22,7 +22,9 @@ import com.lauzy.freedom.dailypaper.utils.RvItemTouchListener;
 
 import java.util.List;
 
-public class NewsCollectionActivity extends AppCompatActivity {
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+public class NewsCollectionActivity extends SkinBaseActivity {
 
     private Toolbar mToolbarBack;
     private RecyclerView mRecyclerView;
@@ -57,6 +59,8 @@ public class NewsCollectionActivity extends AppCompatActivity {
                 NewsCollectionActivity.this.finish();
             }
         });
+
+        dynamicAddView(mToolbarBack,"background",R.color.color_selected_blue);
 
         if (mNewsList.isEmpty()) {
             Toast.makeText(this, R.string.txt_no_collection, Toast.LENGTH_SHORT).show();

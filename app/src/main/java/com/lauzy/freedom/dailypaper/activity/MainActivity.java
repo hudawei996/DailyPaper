@@ -30,7 +30,9 @@ import com.tencent.tauth.Tencent;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+public class MainActivity extends SkinBaseActivity {
 
     private ArrayList<Fragment> mFragments;
     private GestureDetector mGestureDetector;
@@ -148,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
         });
 //        setSupportActionBar(mToolbar);
 
+        dynamicAddView(mToolbar, "background", R.color.color_selected_blue);
+        dynamicAddView(mCommonTabLayout, "background", R.color.color_white);
+
         mTabs = new ArrayList<>();
 
         CustomTabEntity tabHome = new MyCustomTabEntity(getResources().getString(R.string.tab_main_home),
@@ -186,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * QQapi
+     *
      * @param requestCode
      * @param resultCode
      * @param data

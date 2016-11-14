@@ -37,8 +37,12 @@ import org.jsoup.select.Elements;
 
 import java.util.List;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
 @SuppressLint("SetJavaScriptEnabled")
-public class ZHThemeItemActivity extends AppCompatActivity implements View.OnClickListener {
+public class ZHThemeItemActivity extends SkinBaseActivity implements View.OnClickListener {
 
     public static final String ZHTHEME_ITEM_ID = "item_id";
     private WebView mWebView;
@@ -63,6 +67,9 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
 
         mView = (LinearLayout) findViewById(R.id.layout_zh_news);
+
+        LinearLayout layout_tool = (LinearLayout) findViewById(R.id.layout_tool);
+        dynamicAddView(layout_tool,"background",R.color.color_selected_blue);
 
         mImageView = (ImageView) findViewById(R.id.img_zh_list_item);
         ImageButton ibBack = (ImageButton) findViewById(R.id.imgbtn_back);
@@ -107,7 +114,7 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
                     if (imageUrl != null) {
                         Picasso.with(MyApp.mContext)
                                 .load(imageUrl)
-                                .placeholder(R.mipmap.ic_launcher)
+                                .placeholder(R.mipmap.default_img)
                                 .into(mImageView);
                     }
                     /*StringBuilder sb = new StringBuilder();
@@ -166,6 +173,7 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
                 ZHThemeItemActivity.this.finish();
                 break;
             case R.id.imgbtn_share:
+                showShare();
                 break;
             case R.id.imgbtn_collection:
 
@@ -202,6 +210,39 @@ public class ZHThemeItemActivity extends AppCompatActivity implements View.OnCli
             case R.id.imgbtn_support:
                 break;
         }
+    }
+
+    private void showShare() {
+        ShareSDK.initSDK(this);
+
+        String url = Contants.ZHIHU_BASE_URL+ Contants.ZHIHU_THEME_LIST_ITEM_DETAIL_URL + mItemID;
+
+        OnekeyShare oks = new OnekeyShare();
+//关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
+        oks.setTitle("标题");
+// titleUrl是标题的网络链接，QQ和QQ空间等使用
+        oks.setTitleUrl(url);
+// text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本" + url);
+// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+//        oks.setImagePath("/sdcard/21212.jpg");//确保SDcard下面存在此张图片
+
+        oks.setImageUrl(mImageUrl);
+
+// url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(url);
+// comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+// site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+// siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl(url);
+
+// 启动分享GUI
+        oks.show(this);
     }
 
 

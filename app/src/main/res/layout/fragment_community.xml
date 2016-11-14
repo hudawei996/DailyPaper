@@ -1,13 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.lauzy.freedom.dailypaper.fragment.CommunityFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_selected_blue"
+              tools:context="com.lauzy.freedom.dailypaper.fragment.CommunityFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/tab_main_community"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_circle"
+        android:src="@mipmap/img_haha"
+        android:clickable="true"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-</FrameLayout>
+</RelativeLayout>

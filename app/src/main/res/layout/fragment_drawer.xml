@@ -2,9 +2,11 @@
 <!--需要设置android:clickable="true"以免drawerlayout被击穿-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:skin="http://schemas.android.com/android/skin"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@android:color/white"
+              android:background="@color/color_white"
+              skin:enable= "true"
               android:clickable="true"
               android:orientation="vertical"
               tools:context="com.lauzy.freedom.dailypaper.fragment.DrawerFragment">
@@ -14,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_selected_blue"
+        skin:enable= "true"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -34,7 +37,7 @@
 
             <TextView
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/color_black"
                 android:id="@+id/txt_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -51,9 +54,7 @@
                 android:layout_height="30dp"
                 android:textSize="15sp"
                 android:background="@drawable/button_login_selector"/>
-
         </LinearLayout>
-
     </LinearLayout>
 
 
@@ -95,12 +96,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawer_item_selector"
+        android:orientation="horizontal"
         android:clickable="true">
 
         <TextView
             style="@style/DrawerItemStyle"
             android:drawableLeft="@mipmap/icon_mode_night_blue_64"
             android:text="@string/txt_drawer_mode_night"/>
+
+        <Switch
+            android:id="@+id/switch_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"/>
+
     </LinearLayout>
 
     <View

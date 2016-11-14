@@ -1,6 +1,5 @@
 package com.lauzy.freedom.dailypaper.app;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 
@@ -10,11 +9,13 @@ import com.lauzy.freedom.dailypaper.model.CollectionNews;
 
 import java.io.File;
 
+import solid.ren.skinlibrary.base.SkinBaseApplication;
+
 /**
  * Created by Lauzy on 2016/11/1.
  */
 
-public class MyApp extends Application {
+public class MyApp extends SkinBaseApplication {
 
     public static Context mContext;
 
@@ -34,6 +35,7 @@ public class MyApp extends Application {
         initActiveAndroid();
         initScreen();
         initDownLoadPath();
+
     }
 
     private void initDownLoadPath() {

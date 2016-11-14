@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5f6174</color>
+    <color name="colorPrimaryDark">#383c45</color>
+    <color name="colorAccent">@android:color/white</color>
+
+    <color name="color_selected_blue">#5f6174</color>
+    <color name="color_unselected_gray">#6fd1b3</color>
+
+    <color name="color_status_bar">#383c45</color>
+    <color name="color_status_bar_gray">#56554e</color>
+
+    <color name="color_drawer_item_gray">#EAEAEA</color>
+    <color name="color_drawer_view_bg">#918888</color>
+
+    <color name="color_image_dark_alpha">#30000000</color>
+    <color name="color_nickname_transparent">#15000000</color>
+    <color name="color_gender_transparent">#10000000</color>
+
+    <color name="color_black">#FFFFFF</color>
+    <color name="color_white">#c0c3e1</color>
+</resources>
