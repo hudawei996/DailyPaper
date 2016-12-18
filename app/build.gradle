@@ -29,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             signingConfig signingConfigs.release
@@ -56,6 +56,49 @@ android {
         baidu {}
         huawei {}
     }
+
+
+    /*
+    *
+    *   ying_yong_bao
+        wandoujia
+        huawei
+        jifeng
+        Ucanzhuo
+        meizu
+        anzhuoshichang
+        m91
+        baidushoujizhushou
+        tianyidianxin
+        yingyonghui
+        shougoushoujizhushou
+        lianxiang
+        anzhi
+        yiyonghui
+        oppo
+        xiaomi
+        m360
+        mumayi
+        qiniu
+        guan_wang
+        qita
+        souhu
+        fensitong
+        guangdiantong
+        jiaoyuyingyongbao
+        jinritoutiao
+        sanxing
+        google_play
+        beiyong1
+        beiyong2
+        liujianghua
+        woyaodangxueba
+        mayigongshe
+        tianwen
+    *
+    *
+    *
+    * */
 
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
